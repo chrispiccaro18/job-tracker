@@ -4,15 +4,17 @@ const JobBoard = require('../../lib/models/JobBoard');
 
 describe('JobBoard model tests', () => {
   it('has a company and jobs', () => {
+    const jobId1 = new mongoose.Types.ObjectId;
+    const jobId2 = new mongoose.Types.ObjectId;
     const jobBoard = new JobBoard({
       company: 'test company',
-      jobs: ['job1', 'job2'],
+      jobs: [jobId1, jobId2],
     });
 
     expect(jobBoard.toJSON()).toEqual({
       _id: expect.any(mongoose.Types.ObjectId),
       company: 'test company',
-      jobs: ['job1', 'job2'],
+      jobs: [jobId1, jobId2],
     });
   });
 
