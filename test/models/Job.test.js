@@ -1,5 +1,5 @@
 require('../connect-db');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const Job = require('../../lib/models/Job');
 
 describe('Job model tests', () => {
@@ -7,7 +7,6 @@ describe('Job model tests', () => {
   const testJob = {
     'absolute_url': 'https://www.apptio.com/company/careers/job-openings?gh_jid=1816826',
     'internal_job_id': 1138114,
-    '_id': 1138114,
     'location': {
       'name': 'Bengaluru'
     },
@@ -87,17 +86,15 @@ describe('Job model tests', () => {
     ],
     'id': 1816826,
     'updated_at': '2019-09-13T18:51:11-04:00',
-    'requisition_id': null,
+    'requisition_id': undefined,
     'title': 'Test Engineer I'
   };
 
   it('has absolute_url, internal_job_id, location, metadata, id, updated_at, requisition_id, title', () => {
-    const job = new Job(testJob,
-      { _id: testJob.internal_job_id }
-    );
+    const job = new Job(testJob);
 
     expect(job.toJSON()).toEqual({
-      _id: testJob.internal_job_id,
+      _id: expect.any(mongoose.Types.ObjectId),
       ...testJob
     });
   });
