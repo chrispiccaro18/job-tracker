@@ -15,13 +15,12 @@ const APPTIO_URL = 'https://www.apptio.com/company/careers/job-openings';
 
 schedule.scheduleJob('* * * * *', async() => {
   let isJobBoardUpdated = false;
-  const newJobBoard = await getJobBoard();
-  const newJobs = newJobBoard.jobs;
-  const newJobsIds = newJobs.map(job => job.internal_job_id);
+  const newJobs = await getJobBoard();
+  const newJobsIds = newJobs.map(job => job._id);
   await connect();
-  const oldJobBoard = JobBoard.find().lean();
+  const oldJobBoard = JobBoard.find().populate('jobs').lean();
   const oldJobs = oldJobBoard.jobs;
-  const oldJobsIds = oldJobs.map(job => job.internal_job_id);
+  const oldJobsIds = oldJobs.map(job => job._id);
   if(newJobsIds.length !== oldJobsIds.length) isJobBoardUpdated = true;
   // check to see if they are the same ids
   if(!isJobBoardUpdated) {

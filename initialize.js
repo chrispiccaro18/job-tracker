@@ -8,18 +8,12 @@ const getJobBoard = require('./get-job-board');
 const initializeDB = async() => {
   try {
     const jobBoard = await getJobBoard();
-    const jobIds = await Promise.all(jobBoard.map(async job => {
-      const createdJob = await Job.create(job);
-      return createdJob._id;
-    }));
-    // const jobIds = jobBoard.map(async job => {
-    //   const createdJob = await Job.create({
-    //     _id: job.internal_job_id,
-    //     ...job
-    //   });
-    //   console.log(createdJob);
-    //   return createdJob._id;
-    // });
+    const jobIds = await Promise.all(
+      jobBoard.map(async job => {
+        const createdJob = await Job.create(job);
+        return createdJob._id;
+      })
+    );
     await JobBoard.create({ company: 'apptio', jobs: jobIds });
     console.log('Initialized Jobs:', await JobBoard.find().lean());
   } catch(e) {
