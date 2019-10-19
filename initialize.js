@@ -7,6 +7,7 @@ const getJobBoard = require('./get-job-board');
 
 const initializeDB = async() => {
   try {
+    await mongoose.connection.dropDatabase();
     const jobBoard = await getJobBoard();
     const jobIds = await Promise.all(
       jobBoard.map(async job => {
@@ -15,7 +16,8 @@ const initializeDB = async() => {
       })
     );
     await JobBoard.create({ company: 'apptio', jobs: jobIds });
-    console.log('Initialized Jobs:', await JobBoard.find().lean());
+    const createdJobBoard = await JobBoard.find().populate('jobs').lean();
+    console.log('Initialized Jobs: ', JSON.stringify(createdJobBoard, null, 2));
   } catch(e) {
     console.error(e);
   }
