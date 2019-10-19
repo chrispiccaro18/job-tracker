@@ -4,7 +4,7 @@ const {
   newTestJobs,
   expectedAddedJob,
   expectedDeletedJob
-} = require('./testJobs');
+} = require('../testJobs');
 
 describe('discern changes function', () => {
   it('finds added jobs', () => {
