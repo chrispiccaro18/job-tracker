@@ -262,7 +262,7 @@ const databaseTestJobs = [
   } 
 ];
 
-const addedTestJobs = [ 
+const newTestJobs = [ 
   { 
     'metadata': [ 
       { 
@@ -524,13 +524,13 @@ const addedTestJobs = [
   }
 ];
 
-const expectedAddedJob = addedTestJobs[1];
+const expectedAddedJob = newTestJobs[1];
 
 const expectedDeletedJob = databaseTestJobs[1];
 
 module.exports = {
   databaseTestJobs,
-  addedTestJobs,
+  newTestJobs,
   expectedAddedJob,
   expectedDeletedJob,
 };
