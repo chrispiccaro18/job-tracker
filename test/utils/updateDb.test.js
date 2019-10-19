@@ -4,13 +4,12 @@ const JobBoard = require('../../lib/models/JobBoard');
 const Job = require('../../lib/models/Job');
 const {
   testRawData,
-  // databaseTestJobs,
-  // newTestJobs,
-  expectedAddedJob,
-  expectedDeletedJob
+  addedJobRaw,
 } = require('../testJobs');
 
 const updateDb = async(additions, deletions, oldJobBoard) => {
+  if(additions.length <= 0 && deletions.length <= 0) return;
+
   const {
     _id: dbId,
     jobs: oldJobs
@@ -18,7 +17,7 @@ const updateDb = async(additions, deletions, oldJobBoard) => {
 
   const oldJobIds = oldJobs.map(oldJob => oldJob._id);
 
-  if(additions.length <= 0 && deletions.length <= 0) return;
+  let updatedJobIds = [...oldJobIds];
 
   if(additions.length > 0) {
     const newJobIds = await Promise.all(
@@ -27,10 +26,8 @@ const updateDb = async(additions, deletions, oldJobBoard) => {
         return createdJob._id;
       })
     );
-    await JobBoard.findByIdAndUpdate(dbId, { jobs: [...oldJobIds, ...newJobIds] });
+    updatedJobIds = [...oldJobIds, ...newJobIds];
   }
-  //TODO: find out how to properly delete the ids
-  //also make sure we do only 1 update at the end
 
   if(deletions.length > 0) {
     const deletedJobIds = await Promise.all(
@@ -39,13 +36,13 @@ const updateDb = async(additions, deletions, oldJobBoard) => {
         return jobToDelete._id;
       })
     );
-    const updatedJobs = deletedJobIds.map(idToDelete => {
-      const i = oldJobIds.findIndex(id => id === idToDelete);
-      return [...oldJobIds.slice(0, i), ...oldJobIds.slice(i + 1)];
-    });
-    console.log(updatedJobs);
-    // await JobBoard.findByIdAndUpdate(dbId, { jobs: updatedJobs });
+    updatedJobIds = deletedJobIds.reduce((acc, idToDelete) => {
+      const i = updatedJobIds.findIndex(id => id === idToDelete);
+      return [...acc.slice(0, i), ...updatedJobIds.slice(i + 1)];
+    }, updatedJobIds);
   }
+
+  await JobBoard.findByIdAndUpdate(dbId, { ...oldJobBoard, jobs: updatedJobIds });
 };
 
 describe('update database function', () => {
@@ -81,15 +78,15 @@ describe('update database function', () => {
   });
   
   it('updates the database if there are updates', async() => {
-    const additions = [expectedAddedJob];
-    const deletions = [expectedDeletedJob];
     const [initializedDbObj] = initializedDb;
+    const additions = [addedJobRaw];
+    const deletions = [initializedDbObj.jobs[1]];
 
     await updateDb(additions, deletions, initializedDbObj);
     const updatedDb = await JobBoard.find().populate('jobs').lean();
     const expectedJobs = [
-      ...removeFromArray(initializedDbObj.jobs, expectedDeletedJob),
-      expectedAddedJob
+      ...removeFromArray(initializedDbObj.jobs, initializedDbObj.jobs[1]),
+      { ...addedJobRaw, _id: expect.any(mongoose.Types.ObjectId), __v: 0 }
     ];
     expect(updatedDb).toEqual([{ ...initializedDbObj, jobs: expectedJobs }]);
   });

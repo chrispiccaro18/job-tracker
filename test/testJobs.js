@@ -786,10 +786,97 @@ const expectedAddedJob = newTestJobs[1];
 
 const expectedDeletedJob = databaseTestJobs[1];
 
+const addedJobRaw = { 
+  'metadata': [ 
+    { 
+      'id': 188578, 
+      'name': 'Currency Type', 
+      'value': 'USD', 
+      'value_type': 'single_select' 
+    }, 
+    { 
+      'id': 188572, 
+      'name': 'Budgeted', 
+      'value': true, 
+      'value_type': 'yes_no' 
+    }, 
+    { 
+      'id': 188573, 
+      'name': 'PipelineReq', 
+      'value': false, 
+      'value_type': 'yes_no' 
+    }, 
+    { 
+      'id': 188574, 
+      'name': 'ReqLevel', 
+      'value': 'Experienced', 
+      'value_type': 'single_select' 
+    }, 
+    { 
+      'id': 188575, 
+      'name': 'ReqCategory', 
+      'value': 'Development', 
+      'value_type': 'single_select' 
+    }, 
+    { 
+      'id': 188584, 
+      'name': 'ReqType', 
+      'value': 'Full Time', 
+      'value_type': 'single_select' 
+    }, 
+    { 
+      'id': 188576, 
+      'name': 'RecruiterLastName', 
+      'value': 'Schwerm', 
+      'value_type': 'short_text' 
+    }, 
+    { 
+      'id': 188577, 
+      'name': 'RecruiterFirstName', 
+      'value': 'Mark', 
+      'value_type': 'short_text' 
+    }, 
+    { 
+      'id': 188579, 
+      'name': 'RecruiterE mail', 
+      'value': 'c-mschwerm@apptio.com', 
+      'value_type': 'short_text' 
+    }, 
+    { 
+      'id': 188581, 
+      'name': 'HiringManager Last Name', 
+      'value': 'Dewaraja', 
+      'value_type': 'short_text' 
+    }, 
+    { 
+      'id': 188580, 
+      'name': 'HiringManager First Name', 
+      'value': 'Udam', 
+      'value_type': 'short_text' 
+    }, 
+    { 
+      'id': 188582, 
+      'name': 'HiringManagerEmail', 
+      'value': 'UDewaraja@apptio.com', 
+      'value_type': 'short_text' 
+    } 
+  ], 
+  'absolute_url': 'https://www.apptio.com/company/careers/job-openings?gh_jid=1847853', 
+  'internal_job_id': 1155465, 
+  'location': { 
+    'name': 'Portland, OR' 
+  }, 
+  'id': 111111, 
+  'updated_at': '2019-10-09T17:41:47-04:00', 
+  'requisition_id': null, 
+  'title': 'Frontend Engineer – Apptio Cloudability', 
+};
+
 module.exports = {
   testRawData,
   databaseTestJobs,
   newTestJobs,
   expectedAddedJob,
   expectedDeletedJob,
+  addedJobRaw,
 };
