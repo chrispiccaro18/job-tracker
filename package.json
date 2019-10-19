@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --verbose --runInBand",
     "test:watch": "npm run test -- --watch",
-    "start": "node server.js",
-    "start:watch": "nodemon server.js"
+    "start": "node lib/cron.js",
+    "init": "node lib/initialize.js"
   },
   "jest": {
     "testEnvironment": "node"
