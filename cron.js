@@ -6,6 +6,7 @@ const getJobBoard = require('./get-job-board');
 const JobBoard = require('./lib/models/JobBoard');
 const { mailer } = require('./mailer');
 const discernChanges = require('./lib/helpers/discern-changes');
+const { constructEmail } = require('./lib/helpers/constructEmail');
 
 
 schedule.scheduleJob('* * * * *', async() => {
@@ -17,8 +18,6 @@ schedule.scheduleJob('* * * * *', async() => {
     
     const [additions, deletions] = discernChanges(oldJobs, newJobs);
     
-    //TODO: write construct email func
-    // const APPTIO_URL = 'https://www.apptio.com/company/careers/job-openings';
     const [updateSubject, updateBody] = constructEmail(additions, deletions);
 
     await mailer(updateSubject, updateBody);
