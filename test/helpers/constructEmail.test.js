@@ -7,7 +7,7 @@ const discernChanges = require('../../lib/helpers/discern-changes');
 const {
   databaseTestJobs,
   newTestJobs,
-} = require('./testJobs');
+} = require('../testJobs');
 
 describe('construct email function', () => {
   it('returns no updates subject and body of email when no updates', () => {
