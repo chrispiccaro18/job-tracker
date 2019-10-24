@@ -11,9 +11,21 @@ const {
 
 describe('construct email function', () => {
   it('returns no updates subject and body of email when no updates', () => {
-    const additions = [];
-    const deletions = [];
-    const [subject, body] = constructEmail(additions, deletions);
+    const updates = [
+      {
+        additions: [],
+        deletions: [],
+        company: 'apptio',
+        url: 'https://www.apptio.com/company/careers/job-openings',
+      },
+      {
+        additions: [],
+        deletions: [],
+        company: 'walmart',
+        url: 'https://walmart.rolepoint.com/?shorturl=LawD5',
+      },
+    ];
+    const [subject, body] = constructEmail(updates);
     expect(subject).toBe(NO_UPDATES.subject);
     expect(body).toBe(NO_UPDATES.body);
   });
