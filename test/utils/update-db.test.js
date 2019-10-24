@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const connect = require('../../lib/utils/connect');
 const JobBoard = require('../../lib/models/JobBoard');
@@ -19,11 +20,11 @@ describe('update database function', () => {
     await mongoose.connection.dropDatabase();
     const jobIds = await Promise.all(
       testRawData.map(async job => {
-        const createdJob = await Job.create(job);
+        const createdJob = await Job.create({ job });
         return createdJob._id;
       })
     );
-    await JobBoard.create({ company: 'apptio', jobs: jobIds });
+    await JobBoard.create({ company: 'apptio', jobs: jobIds, url: process.env.APPTIO_JOB_BOARD });
     initializedDb = await JobBoard.find().populate('jobs').lean();
     return;
   });
@@ -49,13 +50,13 @@ describe('update database function', () => {
     const updatedDb = await JobBoard.find().populate('jobs').lean();
     const expectedJobs = [
       ...removeFromArray(initializedDbObj.jobs, initializedDbObj.jobs[1]),
-      { ...addedJobRaw, _id: expect.any(mongoose.Types.ObjectId), __v: 0 }
+      { job: { ...addedJobRaw }, _id: expect.any(mongoose.Types.ObjectId), __v: 0 }
     ];
     expect(updatedDb).toEqual([{ ...initializedDbObj, jobs: expectedJobs }]);
   });
 });
 
 const removeFromArray = (array, item) => {
-  const i = array.findIndex(({ id }) => id === item.id);
+  const i = array.findIndex(({ _id }) => _id === item._id);
   return [...array.slice(0, i), ...array.slice(i + 1)];
 };
