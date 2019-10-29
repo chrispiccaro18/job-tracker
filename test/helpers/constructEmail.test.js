@@ -68,7 +68,7 @@ describe('construct email function', () => {
   The following jobs have been added:
     Frontend Engineer – Apptio Cloudability
     Experienced
-    Updated at: 10/9/2019, 2:41:47 PM
+    Updated at: 2019-10-09T21:41:47.000Z
     Link: https://www.apptio.com/company/careers/job-openings?gh_jid=1847853
 
   The following jobs have been deleted:

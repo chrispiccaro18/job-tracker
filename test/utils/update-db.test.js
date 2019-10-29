@@ -1,4 +1,3 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 const connect = require('../../lib/utils/connect');
 const JobBoard = require('../../lib/models/JobBoard');
@@ -24,7 +23,7 @@ describe('update database function', () => {
         return createdJob._id;
       })
     );
-    await JobBoard.create({ company: 'apptio', jobs: jobIds, url: process.env.APPTIO_JOB_BOARD });
+    await JobBoard.create({ company: 'apptio', jobs: jobIds, url: 'https://www.apptio.com/company/careers/job-openings' });
     initializedDb = await JobBoard.find().populate('jobs').lean();
     return;
   });
