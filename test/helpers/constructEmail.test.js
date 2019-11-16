@@ -71,6 +71,7 @@ describe('construct email function', () => {
     Updated at: 2019-10-09T21:41:47.000Z
     Link: https://www.apptio.com/company/careers/job-openings?gh_jid=1847853
 
+
   The following jobs have been deleted:
     None
 
@@ -84,6 +85,7 @@ describe('construct email function', () => {
   The following jobs have been deleted:
     Software Dev
     Link: test.com
+
 
   URL to view job board: https://walmart.rolepoint.com/?shorturl=LawD5
 `;
