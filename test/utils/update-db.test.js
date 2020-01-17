@@ -43,7 +43,7 @@ describe('update database function', () => {
   it('updates the database if there are updates', async() => {
     const [initializedDbObj] = initializedDb;
     const additions = [addedJobRaw];
-    const deletions = [initializedDbObj.jobs[1]];
+    const deletions = [initializedDbObj.jobs[1].job];
 
     await updateDb(additions, deletions, initializedDbObj);
     const updatedDb = await JobBoard.find().populate('jobs').lean();
